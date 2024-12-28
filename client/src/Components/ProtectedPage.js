@@ -12,10 +12,10 @@ import {
 } from '../apicalls/notifications';
 import ConfirmationModal from './ConfirmationPage';
 import Footer from './Footer';
-import img  from './logo.svg';
+import img from './logo.svg';
 
 function ProtectedPage({ children }) {
-  const [notifications = [], setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
   const { user } = useSelector((state) => state.users);
@@ -87,7 +87,6 @@ function ProtectedPage({ children }) {
   const handleLogoutCancel = () => {
     setShowLogoutConfirmation(false);
   };
-  
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -111,18 +110,15 @@ function ProtectedPage({ children }) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [dispatch, navigate]);  // Ensuring necessary dependencies
 
   return (
     user && (
       <div>
         {/* Header part start here */}
         <div className="flex justify-between items-center bg-slate-600 p-5 max-h-20">
-          <h1
-            className="text-2xl text-white"
-          >
+          <h1 className="text-2xl text-white">
             <img src={img} alt="ClassicReborn" style={{ width: '175px' }} />
-
           </h1>
           <div className="flex items-center justify-end ">
             <ul className="flex gap-6 list-none mr-8">
@@ -148,7 +144,6 @@ function ProtectedPage({ children }) {
                   className="text-white text-xl hover:text-gray-600 no-underline hover:bg-gray-200 p-1 hover:rounded"
                   onClick={(e) => {
                     navigate('/about');
-                    window.location.reload();
                   }}
                 >
                   About Us
@@ -184,8 +179,8 @@ function ProtectedPage({ children }) {
                     .length
                 }
                 onClick={() => {
-                  // readNotifications();
                   setShowNotifications(true);
+                  readNotifications();  // Triggering notifications read when clicked
                 }}
                 className="cursor-pointer ml-2"
               >

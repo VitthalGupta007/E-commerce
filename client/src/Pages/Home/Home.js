@@ -6,6 +6,7 @@ import { GetProducts } from '../../apicalls/products';
 import { message } from 'antd';
 import Divider from '../../Components/Divider';
 import Filters from './Filters';
+import { debounce } from 'lodash';
 
 function Home() {
   const [showFilters, setShowFilters] = useState(true);
@@ -16,20 +17,26 @@ function Home() {
     age: [],
   });
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
 
   const getData = async () => {
     try {
+      setLoading(true);
       dispatch(SetLoader(true));
       const response = await GetProducts(filters);
       dispatch(SetLoader(false));
       if (response.success) {
         setProducts(response.data);
+        setFilteredProducts(response.data); // Set filtered products initially
       }
     } catch (error) {
       dispatch(SetLoader(false));
+      setLoading(false);
       message.error(error.message);
     }
   };
@@ -38,13 +45,21 @@ function Home() {
     setSearchQuery(event.target.value);
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Debounce search query to prevent excessive filtering
+  const debouncedSearch = debounce((query) => {
+    const filtered = products.filter((product) =>
+      product.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, 500);
 
   useEffect(() => {
     getData();
   }, [filters]);
+
+  useEffect(() => {
+    debouncedSearch(searchQuery);
+  }, [searchQuery]);
 
   return (
     <div className="flex gap-5" id="shop">
@@ -76,16 +91,15 @@ function Home() {
         </div>
 
         <div
-          className={`
-        grid gap-5 ${showFilters ? 'grid-cols-4' : 'grid-cols-5'}
-      `}
+          className={`grid gap-5 ${showFilters ? 'grid-cols-4' : 'grid-cols-5'}`}
         >
-          {filteredProducts?.map((product) => {
-            return (
+          {loading ? (
+            <div className="text-center w-full py-5">Loading...</div>
+          ) : (
+            filteredProducts?.map((product) => (
               <div
                 key={product._id}
-                className=" border border-gray-400 rounded border-solid flex flex-col gap-2 pb-2"
-                
+                className="border border-gray-400 rounded border-solid flex flex-col gap-2 pb-2"
               >
                 <img
                   src={product.images[0]}
@@ -94,9 +108,11 @@ function Home() {
                   onClick={() => navigate(`/product/${product._id}`)}
                 />
                 <div className="px-5 flex flex-col">
-                  <h1 className="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">{product.name}</h1>
+                  <h1 className="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {product.name}
+                  </h1>
                   <p className="text-sm">
-                    {product.age} {product.age === 1 ? ' year' : ' years'} old
+                    {product.age} {product.age === 1 ? 'year' : 'years'} old
                   </p>
                   <Divider />
                   <span className="text-xl font-semibold text-rose-600">
@@ -104,11 +120,12 @@ function Home() {
                   </span>
                 </div>
               </div>
-            );
-          })}
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 }
+
 export default Home;

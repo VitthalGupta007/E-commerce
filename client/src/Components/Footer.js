@@ -22,7 +22,7 @@ const Footer = () => {
           <h4>Follow Us</h4>
           <a
             href="https://www.linkedin.com/in/vitthal-gupta-4b82b7266/"
-            target="_blank"
+            target="_blank" rel="noopener noreferrer"
           >
             <i className="ri-linkedin-fill text-xl"> Linkedin</i>
           </a>

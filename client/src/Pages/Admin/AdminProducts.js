@@ -1,6 +1,6 @@
-import { Button, Table, message } from 'antd';
+import { Table, message } from 'antd'; // Removed unused Button import
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SetLoader } from '../../Redux/lodersSlice';
 import { GetProducts, UploadProductStatus } from '../../apicalls/products';
 import moment from 'moment';
@@ -42,21 +42,19 @@ function Products() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, []); // Empty array is fine here as getData is not dependent on external variables
 
   const columns = [
     {
       title: "Product",
       dataIndex: "image",
-      render: (text, record) => {
-        return (
-          <img
-            src={record?.images?.length > 0 ? record.images[0] : ""}
-            alt=""
-            className="w-20 h-20 object-cover rounded-md"
-          />
-        );
-      },
+      render: (text, record) => (
+        <img
+          src={record?.images?.length > 0 ? record.images[0] : ""}
+          alt=""
+          className="w-20 h-20 object-cover rounded-md"
+        />
+      ),
     },
     {
       title: 'Product Name',
@@ -65,9 +63,7 @@ function Products() {
     {
       title: 'Seller Name',
       dataIndex: 'name',
-      render: (text, record) => {
-        return record.seller.name;
-      },
+      render: (text, record) => record.seller.name,
     },
     {
       title: 'Price',
@@ -76,9 +72,9 @@ function Products() {
     {
       title: 'How old is the product?',
       dataIndex: 'age',
-      render: (text, record) => {
-        return <span>{record.age} {record.age === 1 ? ' year' : ' years'} old</span>
-      }
+      render: (text, record) => (
+        <span>{record.age} {record.age === 1 ? ' year' : ' years'} old</span>
+      ),
     },
     {
       title: 'Category',
@@ -87,15 +83,12 @@ function Products() {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: (text, record) => {
-        return record.status.toUpperCase();
-      },
+      render: (text, record) => record.status.toUpperCase(),
     },
     {
       title: 'Added On',
       dataIndex: 'createdAt',
-      render: (text, record) =>
-        moment(record.createdAt).format('DD-MM-YYYY hh:mm A'),
+      render: (text, record) => moment(record.createdAt).format('DD-MM-YYYY hh:mm A'),
     },
     {
       title: 'Action',
@@ -120,14 +113,6 @@ function Products() {
                 Reject
               </span>
             )}
-            {/* {status === 'Pending' && (
-              <span
-                className="underline cursor-pointer"
-                onClick={() => onStatusUpdate(_id, 'Blocked')}
-              >
-                Block
-              </span>
-            )} */}
             {status === 'Approved' && (
               <span
                 className="underline cursor-pointer"
@@ -170,4 +155,5 @@ function Products() {
     </div>
   );
 }
+
 export default Products;

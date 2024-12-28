@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div id="contactUs">
       <div className="footer">
-        <div >
+        <div>
           <div>
             <h1 className="text-2xl mt-1">ClassicReborn</h1>
             <p>Give New Life to Old Goods.</p>
@@ -22,11 +22,16 @@ const Footer = () => {
           <h4>Follow Us</h4>
           <a
             href="https://www.linkedin.com/in/vitthal-gupta-4b82b7266/"
-            target="_blank" rel="noopener noreferrer"
+            target="_blank" 
+            rel="noreferrer noopener"  // Security fix
           >
             <i className="ri-linkedin-fill text-xl"> Linkedin</i>
           </a>
-          <a href="https://github.com/VitthalGupta007" target="_blank">
+          <a
+            href="https://github.com/VitthalGupta007"
+            target="_blank"
+            rel="noreferrer noopener"  // Security fix
+          >
             <i className="ri-github-fill text-xl"> GitHub</i>
           </a>
         </div>
@@ -34,14 +39,12 @@ const Footer = () => {
           <h4>Contact Us</h4>
           <i className="ri-map-pin-line">
             <span>
-              {' '}
-              Nit kurukshetra, <br />
-              kurukshetra, Haryana 136119
+              Nit Kurukshetra, <br />
+              Kurukshetra, Haryana 136119
             </span>
           </i>
           <a href="mailto:vitthalgupta007@gmail.com">
             <i className="ri-mail-line text-xl mr-1">
-              {' '}
               vitthalgupta007@gmail.com
             </i>
           </a>
@@ -59,4 +62,5 @@ const Footer = () => {
     </div>
   );
 };
+
 export default Footer;

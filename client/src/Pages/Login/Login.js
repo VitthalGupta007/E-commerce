@@ -97,14 +97,11 @@ function Login() {
           <p className="mt-2 text-center">
             <span className="text-xl text-gray-500">
               Contact us :{' '}
-              <a href="mailto:praveen01.ugec20@iiitranchi.ac.in">
+              <a href="mailto:vitthalgupta007@gmail.com">
                 <i className="ri-mail-line text-xl mr-1"></i>
               </a>
-              <a href="https://www.instagram.com/_.witch3r/" target="_blank">
-                <i className="ri-instagram-line text-xl mr-1"></i>
-              </a>
               <a
-                href="https://www.linkedin.com/in/praveen-shankar-ba289a212/"
+                href="https://www.linkedin.com/in/vitthal-gupta-4b82b7266/"
                 target="_blank"
               >
                 <i className="ri-linkedin-fill text-xl mr-1"></i>

@@ -13,7 +13,3 @@ export default async (req, res, next) => {
     });
   }
 };
-
-
-// jwt.verify(token, process.env.JWT_SECRET);   the first parameter as the token and second parameter as the secret key and it must match with encrypted secret key
-// decryptedToken an objected with the property userID
